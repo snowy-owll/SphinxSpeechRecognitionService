@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">TestServiceSphinx</string>
+    <string name="start_service">Запустить сервис</string>
+    <string name="stop_service">Остановить сервис</string>
+    <string name="label_serviceState">Состояние сервиса:</string>
+    <string name="service_on">вкл.</string>
+    <string name="service_off">выкл.</string>
+    <string name="data_from_service">Данные от сервиса</string>
+    <string name="message_status">Статус сообщения:</string>
+    <string name="message_data">Данные сообщения:</string>
+    <string name="notify_title">Сервис распознавания</string>
+    <string name="settings">Настройки</string>
+    <string name="service_start_init">Запуск инициализации распознавания</string>
+    <string name="service_stop">Сервис остановлен</string>
+    <string name="service_error_init">Ошибка инициализации распознавания</string>
+    <string name="service_init_complete">Инициализация завершена</string>
+    <string name="service_start_recognize_keyphrase">Распознавание ключевой фразы запущено</string>
+    <string name="service_start_recognize_command">Распознавание команды запущено</string>
+    <string name="service_keyphrase_recognized">Ключевая фраза распознана</string>
+    <string name="service_command_recognized">Распознана команда</string>
+    <string name="service_recognize_command_timeout">Превышен интервал распознавания команды</string>
+    <string name="main_settings">Основные настройки (для применения требуется перезапустить сервис)</string>
+    <string name="notification_settings">Настройки оповещения о распознавании ключевой фразы и команды
+        (работает только при открытом окне управления сервисом)</string>
+    <string name="path_to_am">Путь до акустической модели</string>
+    <string name="keyphrase_for_recognition">Ключевая фраза для распознавания</string>
+    <string name="timeout_recognition">Тайм-аут распознавания команды</string>
+    <string name="sample_rate">Частота дискретизации</string>
+    <string name="remove_noise">Удалить шум</string>
+    <string name="vibration">Вибрация</string>
+    <string name="sound_notify">Звуковое оповещение</string>
+    <string name="last_command_or_error">Последняя команда или ошибка:</string>
+    <string name="last_event_log">Лог последних событий:</string>
+    <string name="log_raw">Лог сырых данных</string>
+    <string name="log_raw_summary">Может занимать много места</string>
+    <string name="about">О приложении</string>
+</resources>

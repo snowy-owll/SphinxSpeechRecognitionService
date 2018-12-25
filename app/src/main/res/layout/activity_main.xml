@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="ru.snowy_owl.testservicesphinx.MainActivity">
+    <Button android:id="@+id/btn_manageService"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start_service"
+            android:layout_margin="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+    <LinearLayout android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="5dp"
+                  app:layout_constraintTop_toBottomOf="@+id/btn_manageService"
+                  app:layout_constraintLeft_toLeftOf="parent"
+                  android:id="@+id/linearLayout">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/label_serviceState"
+                  android:textStyle="bold"
+                android:textSize="@dimen/text_size"/>
+        <TextView android:id="@+id/txtView_serviceState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/service_off"
+                  android:textSize="@dimen/text_size"
+                android:layout_marginStart="5dp"/>
+    </LinearLayout>
+    <TextView android:id="@+id/txtView_serviceStateDetail"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toBottomOf="@id/linearLayout"
+              android:layout_marginStart="5dp"
+              android:textSize="@dimen/text_size"
+              android:text="@string/service_off"/>
+    <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/txtView_serviceStateDetail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="5dp">
+        <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/Gray" />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/last_command_or_error"
+                  android:textSize="@dimen/text_size"
+                  android:layout_marginTop="5dp"/>
+        <TextView android:id="@+id/txtView_lastData"
+                  android:layout_marginTop="5dp"
+                  android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                  android:layout_height="wrap_content"/>
+        <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/Gray" />
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="5dp"
+                  android:textSize="@dimen/text_size"
+                android:text="@string/last_event_log"/>
+        <ScrollView android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:id="@+id/scrollView_lastMessages">
+            <TextView android:id="@+id/txtView_lastMessages"
+                    android:layout_width="match_parent"
+                      android:textSize="@dimen/text_size"
+                      android:layout_height="wrap_content"/>
+        </ScrollView>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

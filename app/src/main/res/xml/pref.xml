@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/main_settings">
+        <com.ls.directoryselector.DirectoryPreference
+            android:key="am_path"
+            android:title="@string/path_to_am"
+            android:summary="Path"
+            android:positiveButtonText="@android:string/ok"
+            android:negativeButtonText="@android:string/cancel"/>
+        <EditTextPreference
+            android:key="keyphrase"
+            android:capitalize="none"
+            android:title="@string/keyphrase_for_recognition"/>
+        <EditTextPreference
+            android:key="timeout_recognition"
+            android:inputType="number"
+            android:title="@string/timeout_recognition"/>
+        <EditTextPreference
+            android:key="sample_rate"
+            android:inputType="number"
+            android:title="@string/sample_rate"/>
+        <CheckBoxPreference
+            android:key="remove_noise"
+            android:title="@string/remove_noise"/>
+        <CheckBoxPreference
+            android:key="enable_raw_log"
+            android:title="@string/log_raw"
+            android:summary="@string/log_raw_summary"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/notification_settings">
+        <CheckBoxPreference
+                android:key="vibro_recognized"
+                android:title="@string/vibration"/>
+        <CheckBoxPreference
+                android:key="sound_recognized"
+                android:title="@string/sound_notify"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/about">
+        <Preference android:key="version"
+                    android:title="Версия"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>
