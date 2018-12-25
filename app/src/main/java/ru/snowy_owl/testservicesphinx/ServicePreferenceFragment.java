@@ -5,11 +5,16 @@ import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.*;
+import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
+
 import com.ls.directoryselector.DirectoryPreference;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -17,10 +22,10 @@ import static ru.snowy_owl.testservicesphinx.Consts.*;
 
 public class ServicePreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private DirectoryPreference _pref_pathToAmModel;
-    private EditTextPreference _pref_keyphrase;
-    private EditTextPreference _pref_timeoutRecognition;
-    private EditTextPreference _pref_sampleRate;
+    private DirectoryPreference mPrefPathToAmModel;
+    private EditTextPreference mPrefKeyphrase;
+    private EditTextPreference mPrefTimeoutRecognition;
+    private EditTextPreference mPrefSampleRate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,15 +38,15 @@ public class ServicePreferenceFragment extends PreferenceFragment implements Sha
 
         PreferenceScreen screen = getPreferenceScreen();
 
-        _pref_pathToAmModel = (DirectoryPreference) screen.findPreference(PREF_SPHINX_PATH);
-        String value = screen.getSharedPreferences().getString(PREF_SPHINX_PATH,DEFAULT_SPHINX_PATH);
-        _pref_pathToAmModel.setSummary(value);
+        mPrefPathToAmModel = (DirectoryPreference) screen.findPreference(PREF_SPHINX_PATH);
+        String value = screen.getSharedPreferences().getString(PREF_SPHINX_PATH, DEFAULT_SPHINX_PATH);
+        mPrefPathToAmModel.setSummary(value);
 
-        _pref_keyphrase = (EditTextPreference)screen.findPreference(PREF_KEYPHRASE);
-        value = screen.getSharedPreferences().getString(PREF_KEYPHRASE,DEFAULT_KEYPHRASE);
-        _pref_keyphrase.setSummary(value);
-        _pref_keyphrase.setText(value);
-        _pref_keyphrase.getEditText().addTextChangedListener(new TextWatcher() {
+        mPrefKeyphrase = (EditTextPreference) screen.findPreference(PREF_KEYPHRASE);
+        value = screen.getSharedPreferences().getString(PREF_KEYPHRASE, DEFAULT_KEYPHRASE);
+        mPrefKeyphrase.setSummary(value);
+        mPrefKeyphrase.setText(value);
+        mPrefKeyphrase.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -49,14 +54,10 @@ public class ServicePreferenceFragment extends PreferenceFragment implements Sha
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                boolean isEmpty = false;
-                if(s.toString().equals("")){
-                    isEmpty=true;
-                }
-                Dialog dialog=_pref_keyphrase.getDialog();
-                if(dialog instanceof AlertDialog){
-                    Button button= ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-                    button.setEnabled(!isEmpty);
+                Dialog dialog = mPrefKeyphrase.getDialog();
+                if (dialog instanceof AlertDialog) {
+                    Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                    button.setEnabled(!s.toString().equals(""));
                 }
             }
 
@@ -66,13 +67,13 @@ public class ServicePreferenceFragment extends PreferenceFragment implements Sha
             }
         });
 
-        //TODO: перенести реализацию диалога ввода численных параметров в отдельный класс
-        _pref_timeoutRecognition = (EditTextPreference)screen.findPreference(PREF_TIMEOUT_RECOGNITION);
+        //TODO: move the implementation of the input numeric parameters dialogue in a separate class
+        mPrefTimeoutRecognition = (EditTextPreference) screen.findPreference(PREF_TIMEOUT_RECOGNITION);
         value = screen.getSharedPreferences()
                 .getString(PREF_TIMEOUT_RECOGNITION, DEFAULT_TIMEOUT_RECOGNITION);
-        _pref_timeoutRecognition.setSummary(value);
-        _pref_timeoutRecognition.setText(value);
-        _pref_timeoutRecognition.getEditText().addTextChangedListener(new TextWatcher() {
+        mPrefTimeoutRecognition.setSummary(value);
+        mPrefTimeoutRecognition.setText(value);
+        mPrefTimeoutRecognition.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -81,12 +82,12 @@ public class ServicePreferenceFragment extends PreferenceFragment implements Sha
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 boolean isEmpty = false;
-                if(s.toString().equals("") || ( _isNumeric(s.toString()) && Integer.parseInt(s.toString())==0)){
-                    isEmpty=true;
+                if (s.toString().equals("") || (isNumeric(s.toString()) && Integer.parseInt(s.toString()) == 0)) {
+                    isEmpty = true;
                 }
-                Dialog dialog=_pref_timeoutRecognition.getDialog();
-                if(dialog instanceof AlertDialog){
-                    Button button= ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                Dialog dialog = mPrefTimeoutRecognition.getDialog();
+                if (dialog instanceof AlertDialog) {
+                    Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
                     button.setEnabled(!isEmpty);
                 }
             }
@@ -97,11 +98,11 @@ public class ServicePreferenceFragment extends PreferenceFragment implements Sha
             }
         });
 
-        _pref_sampleRate=(EditTextPreference)screen.findPreference(PREF_SAMPLE_RATE);
-        value=screen.getSharedPreferences().getString(PREF_SAMPLE_RATE,DEFAULT_SAMPLE_RATE);
-        _pref_sampleRate.setSummary(value);
-        _pref_sampleRate.setText(value);
-        _pref_sampleRate.getEditText().addTextChangedListener(new TextWatcher() {
+        mPrefSampleRate = (EditTextPreference) screen.findPreference(PREF_SAMPLE_RATE);
+        value = screen.getSharedPreferences().getString(PREF_SAMPLE_RATE, DEFAULT_SAMPLE_RATE);
+        mPrefSampleRate.setSummary(value);
+        mPrefSampleRate.setText(value);
+        mPrefSampleRate.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -110,12 +111,12 @@ public class ServicePreferenceFragment extends PreferenceFragment implements Sha
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 boolean isEmpty = false;
-                if(s.toString().equals("") || ( _isNumeric(s.toString()) && Integer.parseInt(s.toString())==0)){
-                    isEmpty=true;
+                if (s.toString().equals("") || (isNumeric(s.toString()) && Integer.parseInt(s.toString()) == 0)) {
+                    isEmpty = true;
                 }
-                Dialog dialog=_pref_sampleRate.getDialog();
-                if(dialog instanceof AlertDialog){
-                    Button button= ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                Dialog dialog = mPrefSampleRate.getDialog();
+                if (dialog instanceof AlertDialog) {
+                    Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
                     button.setEnabled(!isEmpty);
                 }
             }
@@ -132,16 +133,16 @@ public class ServicePreferenceFragment extends PreferenceFragment implements Sha
         checkBoxPreference.setChecked(b);
 
         checkBoxPreference = (CheckBoxPreference)
-            screen.findPreference(PREF_SOUND_RECOGNIZED);
+                screen.findPreference(PREF_SOUND_RECOGNIZED);
         b = screen.getSharedPreferences().getBoolean(PREF_SOUND_RECOGNIZED, DEFAULT_SOUND_RECOGNIZER);
         checkBoxPreference.setChecked(b);
 
         checkBoxPreference = (CheckBoxPreference) screen.findPreference(PREF_REMOVE_NOISE);
-        b = screen.getSharedPreferences().getBoolean(PREF_REMOVE_NOISE,DEFAULT_REMOVE_NOISE);
+        b = screen.getSharedPreferences().getBoolean(PREF_REMOVE_NOISE, DEFAULT_REMOVE_NOISE);
         checkBoxPreference.setChecked(b);
 
         checkBoxPreference = (CheckBoxPreference) screen.findPreference(PREF_ENABLE_RAW_LOG);
-        b = screen.getSharedPreferences().getBoolean(PREF_ENABLE_RAW_LOG,DEFAULT_ENABLE_RAW_LOG);
+        b = screen.getSharedPreferences().getBoolean(PREF_ENABLE_RAW_LOG, DEFAULT_ENABLE_RAW_LOG);
         checkBoxPreference.setChecked(b);
 
         Preference prefVersion = screen.findPreference("version");
@@ -149,22 +150,21 @@ public class ServicePreferenceFragment extends PreferenceFragment implements Sha
         try {
             version = getActivity().getPackageManager()
                     .getPackageInfo(getActivity().getPackageName(), 0).versionName;
-        }
-        catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException e) {
             Log.d(LOG_TAG, e.getMessage());
         }
         prefVersion.setSummary(version);
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
@@ -172,27 +172,27 @@ public class ServicePreferenceFragment extends PreferenceFragment implements Sha
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        switch (key){
+        switch (key) {
             case PREF_SPHINX_PATH:
                 String path = sharedPreferences.getString(PREF_SPHINX_PATH, DEFAULT_SPHINX_PATH);
-                _pref_pathToAmModel.setSummary(path);
+                mPrefPathToAmModel.setSummary(path);
                 break;
-            case  PREF_KEYPHRASE:
+            case PREF_KEYPHRASE:
                 String keyphrase = sharedPreferences.getString(PREF_KEYPHRASE, DEFAULT_KEYPHRASE);
-                _pref_keyphrase.setSummary(keyphrase);
+                mPrefKeyphrase.setSummary(keyphrase);
                 break;
             case PREF_TIMEOUT_RECOGNITION:
                 String timeout = sharedPreferences
                         .getString(PREF_TIMEOUT_RECOGNITION, DEFAULT_TIMEOUT_RECOGNITION);
-                _pref_timeoutRecognition.setSummary(timeout);
+                mPrefTimeoutRecognition.setSummary(timeout);
                 break;
             case PREF_SAMPLE_RATE:
                 String sample_rate = sharedPreferences.getString(PREF_SAMPLE_RATE, DEFAULT_SAMPLE_RATE);
-                _pref_sampleRate.setSummary(sample_rate);
+                mPrefSampleRate.setSummary(sample_rate);
         }
     }
 
-    private boolean _isNumeric(String s) {
+    private boolean isNumeric(String s) {
         return s != null && s.matches("[-+]?\\d*\\.?\\d+");
     }
 }

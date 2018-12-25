@@ -5,9 +5,6 @@
     <string name="label_serviceState">Состояние сервиса:</string>
     <string name="service_on">вкл.</string>
     <string name="service_off">выкл.</string>
-    <string name="data_from_service">Данные от сервиса</string>
-    <string name="message_status">Статус сообщения:</string>
-    <string name="message_data">Данные сообщения:</string>
     <string name="notify_title">Сервис распознавания</string>
     <string name="settings">Настройки</string>
     <string name="service_start_init">Запуск инициализации распознавания</string>

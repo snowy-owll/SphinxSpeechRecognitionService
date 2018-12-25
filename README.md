@@ -9,7 +9,7 @@ The build requires Android SDK (version of Android 5.1) and JDK (with configured
 Run `gradlew build` to build an executable apk.  
 The apk will be in `app/build/outputs/apk` directory.
 
-## Reqiured permission:
+## Required permission:
   - WRITE_EXTERNAL_STORAGE
   - RECORD_AUDIO
   - VIBRATE
@@ -64,7 +64,7 @@ In the first case, the field contains a description of the initialization error.
 
 In the second case, the field contains the recognized command.
 
-The “confidence” field is sent only when the status is “command_recognized” and contains values of trust for the recognized command. With values from -2 to 0, the command is recognized almost perfectly. False commands are rarely recognized with this value. With values from -3 to -2 there is a high probability that the command is recognized incorrectly. At values below -3 it is almost guaranteed that the recognition is wrong. It is worth considering that these boundaries are indicated for commands consisting of at least two words. For a commad of one word, the value of trust will often be lower than -2, although it will be recognized almost every time.
+The “confidence” field is sent only when the status is “command_recognized” and contains values of trust for the recognized command. With values from -2 to 0, the command is recognized almost perfectly. False commands are rarely recognized with this value. With values from -3 to -2 there is a high probability that the command is recognized incorrectly. At values below -3 it is almost guaranteed that the recognition is wrong. It is worth considering that these boundaries are indicated for commands consisting of at least two words. For a command of one word, the value of trust will often be lower than -2, although it will be recognized almost every time.
 
 ## Application language
 The application is currently available only in Russian.

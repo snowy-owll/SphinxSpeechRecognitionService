@@ -25,47 +25,45 @@ import static ru.snowy_owl.testservicesphinx.Consts.*;
 
 public class MainActivity extends Activity {
 
-    private Button _btn_manageService;
-    private TextView _txtView_serviceState;
-    private SharedPreferences _pref;
-    private BroadcastReceiver _br;
-    private LastMessagesList _lastMessagesList;
-    private HashMap<String,Integer> _broadcastStatusLabels;
-    private ScrollView _scrollViewLastMessages;
+    private Button mBtnManageService;
+    private TextView mTxtViewServiceState;
+    private SharedPreferences mPref;
+    private BroadcastReceiver mBr;
+    private LastMessagesList mLastMessagesList;
+    private HashMap<String, Integer> mBroadcastStatusLabels;
+    private ScrollView mScrollViewLastMessages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        _scrollViewLastMessages = (ScrollView)findViewById(R.id.scrollView_lastMessages);
+        mScrollViewLastMessages = (ScrollView) findViewById(R.id.scrollView_lastMessages);
 
-        _broadcastStatusLabels = BroadcastStatusLabels;
-        _lastMessagesList = new LastMessagesList(15);
+        mBroadcastStatusLabels = BroadcastStatusLabels;
+        mLastMessagesList = new LastMessagesList(Consts.LAST_MESSAGES_LIST_SIZE);
 
-        _pref = getSharedPreferences(FILE_PREF_NAME, MODE_PRIVATE);
+        mPref = getSharedPreferences(FILE_PREF_NAME, MODE_PRIVATE);
 
-        _btn_manageService = (Button) findViewById(R.id.btn_manageService);
-        _btn_manageService.setOnClickListener(new View.OnClickListener() {
+        mBtnManageService = (Button) findViewById(R.id.btn_manageService);
+        mBtnManageService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(_getSphinxServiceState()){
-                    //Выключаем сервис
+                if (getSphinxServiceState()) {
                     stopService(new Intent(MainActivity.this, SphinxService.class));
-                    _setServiceStateToUI(false);
+                    setServiceStateToUI(false);
                     return;
                 }
-                //Включаем сервис
                 startService(new Intent(MainActivity.this, SphinxService.class));
-                _setServiceStateToUI(true);
+                setServiceStateToUI(true);
             }
         });
 
-        final TextView txtView_lastData=(TextView)findViewById(R.id.txtView_lastData);
-        final TextView txtView_lastMessages=(TextView)findViewById(R.id.txtView_lastMessages);
-        final TextView txtView_serviceStateDetail = (TextView)findViewById(R.id.txtView_serviceStateDetail);
+        final TextView txtView_lastData = (TextView) findViewById(R.id.txtView_lastData);
+        final TextView txtView_lastMessages = (TextView) findViewById(R.id.txtView_lastMessages);
+        final TextView txtView_serviceStateDetail = (TextView) findViewById(R.id.txtView_serviceStateDetail);
 
-        _br = new BroadcastReceiver() {
+        mBr = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 String status = intent.getStringExtra(BROADCAST_PARAM_STATUS);
@@ -75,11 +73,11 @@ public class MainActivity extends Activity {
                 DateFormat df = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
                 message.append(df.format(Calendar.getInstance().getTime()));
                 String broadcastLabel = getResources().getString(
-                        _broadcastStatusLabels.get(status));
+                        mBroadcastStatusLabels.get(status));
                 message.append(" - ").append(broadcastLabel);
                 switch (status) {
                     case BROADCAST_STATUS_STOP:
-                        _setServiceStateToUI(false);
+                        setServiceStateToUI(false);
                     case BROADCAST_STATUS_START_INIT:
                     case BROADCAST_STATUS_START_RECOGNIZE_COMMAND:
                     case BROADCAST_STATUS_START_RECOGNIZE_KEYPHRASE:
@@ -87,115 +85,105 @@ public class MainActivity extends Activity {
                         break;
                     case BROADCAST_STATUS_INIT_COMPLETE:
                         Toast.makeText(MainActivity.this,
-                                "Сервис готов к распознаванию",Toast.LENGTH_LONG).show();
+                                "Сервис готов к распознаванию", Toast.LENGTH_LONG).show();
                         break;
                     case BROADCAST_STATUS_KEYPHRASE_RECOGNIZED:
-                        _notifyUser();
+                        notifyUser();
                         break;
                     case BROADCAST_STATUS_ERROR_INIT:
                         Toast.makeText(MainActivity.this,
-                                "Произошла ошибка при инициализации распознавания: "+data,
+                                "Произошла ошибка при инициализации распознавания: " + data,
                                 Toast.LENGTH_LONG).show();
                         txtView_lastData.setText(data);
                         message.append(" (").append(data).append(")");
                         break;
                     case BROADCAST_STATUS_COMMAND_RECOGNIZED:
-                        _notifyUser();
+                        notifyUser();
                         txtView_lastData.setText(data);
-                        float confidence = intent.getFloatExtra(BROADCAST_PARAM_CONFIDENCE,0);
+                        float confidence = intent.getFloatExtra(BROADCAST_PARAM_CONFIDENCE, 0);
                         message.append(" (").append(data).append(" | ").append(confidence).append(")");
                         break;
                 }
-                _lastMessagesList.add(message.toString());
-                txtView_lastMessages.setText(_lastMessagesList.toString());
-                _scrollViewToBottom();
+                mLastMessagesList.add(message.toString());
+                txtView_lastMessages.setText(mLastMessagesList.toString());
+                scrollViewToBottom();
             }
         };
-        IntentFilter filter=new IntentFilter(BROADCAST_ACTION);
-        registerReceiver(_br,filter);
+        IntentFilter filter = new IntentFilter(BROADCAST_ACTION);
+        registerReceiver(mBr, filter);
 
-        _txtView_serviceState = (TextView)findViewById(R.id.txtView_serviceState);
+        mTxtViewServiceState = (TextView) findViewById(R.id.txtView_serviceState);
 
-        _setServiceStateToUI(_getSphinxServiceState());
+        setServiceStateToUI(getSphinxServiceState());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(_br);
+        unregisterReceiver(mBr);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
-    protected void onResume(){
-        super.onResume();
-
-        /*if(_pref.getBoolean(PREF_FIRST_RUN,true)){
-            _pref.edit()
-                    .putBoolean(PREF_FIRST_RUN, false)
-                    .apply();
-        }*/
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.main_menu_settings:
-                Intent intent=new Intent(this, ServicePreferenceActivity.class);
+                Intent intent = new Intent(this, ServicePreferenceActivity.class);
                 startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void _setServiceStateToUI(boolean state){
+    private void setServiceStateToUI(boolean state) {
         int btnTextId;
         int txtViewId;
-        if(state){
+        if (state) {
             btnTextId = R.string.stop_service;
             txtViewId = R.string.service_on;
-        }
-        else {
+        } else {
             btnTextId = R.string.start_service;
             txtViewId = R.string.service_off;
         }
-        _btn_manageService.setText(btnTextId);
-        _txtView_serviceState.setText(txtViewId);
+        mBtnManageService.setText(btnTextId);
+        mTxtViewServiceState.setText(txtViewId);
     }
 
-    private boolean _getSphinxServiceState(){
+    private boolean getSphinxServiceState() {
         ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for(ActivityManager.RunningServiceInfo service : am.getRunningServices(Integer.MAX_VALUE)) {
-            if(SphinxService.class.getName().equals(service.service.getClassName())){
+        for (ActivityManager.RunningServiceInfo service : am.getRunningServices(Integer.MAX_VALUE)) {
+            if (SphinxService.class.getName().equals(service.service.getClassName())) {
                 return true;
             }
         }
         return false;
     }
 
-    private void _notifyUser(){
-        if(_pref.getBoolean(PREF_SOUND_RECOGNIZED,DEFAULT_SOUND_RECOGNIZER)) {
+    private void notifyUser() {
+        if (mPref.getBoolean(PREF_SOUND_RECOGNIZED, DEFAULT_SOUND_RECOGNIZER)) {
             ToneGenerator toneGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
             toneGenerator.startTone(ToneGenerator.TONE_CDMA_PIP, 200);
             toneGenerator.release();
         }
-        if(_pref.getBoolean(PREF_VIBRO_RECOGNIZED,DEFAULT_VIBRO_RECOGNIZED)) {
+        if (mPref.getBoolean(PREF_VIBRO_RECOGNIZED, DEFAULT_VIBRO_RECOGNIZED)) {
             Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            v.vibrate(400);
+            if (v != null) {
+                v.vibrate(400);
+            }
         }
     }
 
-    private void _scrollViewToBottom() {
-        _scrollViewLastMessages.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        _scrollViewLastMessages.fullScroll(ScrollView.FOCUS_DOWN);
-                    }
-                });
+    private void scrollViewToBottom() {
+        mScrollViewLastMessages.post(new Runnable() {
+            @Override
+            public void run() {
+                mScrollViewLastMessages.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
     }
 }
