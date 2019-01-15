@@ -1,11 +1,13 @@
 package ru.snowy_owl.testservicesphinx;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 
-class LastMessagesList extends ArrayList<String> {
+public class LastMessagesList extends ArrayList<String> {
     private final int mMaxSize;
 
-    LastMessagesList(int size) {
+    public LastMessagesList(int size) {
         mMaxSize = size;
     }
 
@@ -17,12 +19,8 @@ class LastMessagesList extends ArrayList<String> {
         return r;
     }
 
+    @Override
     public String toString() {
-        StringBuilder rez = new StringBuilder();
-        for (String str : this) {
-            rez.append(str).append("\n");
-        }
-        rez.deleteCharAt(rez.length() - 1);
-        return rez.toString();
+        return TextUtils.join("\n", this);
     }
 }

@@ -2,17 +2,16 @@
 
 ## Speech recognition app
 
-The application allows you to recognize the commands specified in the configuration file, and broadcasts them other applications. Activation of the recognition mode is performed using a key phrase that is set in the application settings. For recognition, use the library [Sphinx](https://cmusphinx.github.io/).
+The application allows you to recognize the commands specified in the configuration file, and broadcasts them other applications. Activation of the recognition mode is performed using a key phrase that is set in the application settings. For recognition uses the [Sphinx](https://cmusphinx.github.io/) library.
 
 ## How to build
-The build requires Android SDK (version of Android 5.1) and JDK (with configured environment variables JAVA_HOME and ANDROID_HOME).
-Run `gradlew build` to build an executable apk.  
+The build requires Android SDK (build SDK version is 28) and JDK (with configured environment variables JAVA_HOME and ANDROID_HOME).
+Run `gradlew build` to build an executable apk.
 The apk will be in `app/build/outputs/apk` directory.
 
 ## Required permission:
   - WRITE_EXTERNAL_STORAGE
   - RECORD_AUDIO
-  - VIBRATE
 
 ## Additional resources
 The application requires an acoustic model and a command grammar description file (in JSGF format).
@@ -51,7 +50,7 @@ Each message contains the following fields:
 The "status" field can have the following values:
  - "start_init" – sent when the service starts and reports the start of recognition initialization;
  - "error_init" – sent when the initialization has completed with an error (the service stops its work, the "data" field contains a description of the error);
- - "init_complet"» – sent after successful completion of recognition initialization (after this, recognition of the key phrase is automatically started);
+ - "init_complete" – sent after successful completion of recognition initialization (after this, recognition of the key phrase is automatically started);
  - "start_recognize_keyphrase" – sent when the key phrase recognition process is running;
  - "start_recognize_command" – sent when command recognition is running;
  - "keyphrase_recognized" – sent when the key phrase is recognized (it is not sent to the “data” field, but if necessary, this behavior can be changed in the next version);
@@ -66,5 +65,12 @@ In the second case, the field contains the recognized command.
 
 The “confidence” field is sent only when the status is “command_recognized” and contains values of trust for the recognized command. With values from -2 to 0, the command is recognized almost perfectly. False commands are rarely recognized with this value. With values from -3 to -2 there is a high probability that the command is recognized incorrectly. At values below -3 it is almost guaranteed that the recognition is wrong. It is worth considering that these boundaries are indicated for commands consisting of at least two words. For a command of one word, the value of trust will often be lower than -2, although it will be recognized almost every time.
 
-## Application language
-The application is currently available only in Russian.
+## Translations
+  - English
+  - Russian
+
+## Third Party Libraries
+  - [Modified](https://github.com/snowy-owll/directory-selector-dialog-preference) [Directory Selector Dialog Preference](https://github.com/lemberg/directory-selector-dialog-preference)
+
+## License
+The project is available under MIT license. See the file `LICENSE` with the full license text.

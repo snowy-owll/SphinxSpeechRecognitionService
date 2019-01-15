@@ -1,19 +1,23 @@
-package ru.snowy_owl.testservicesphinx;
+package ru.snowy_owl.testservicesphinx.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-public class ServicePreferenceActivity extends Activity {
+import ru.snowy_owl.testservicesphinx.R;
+import ru.snowy_owl.testservicesphinx.preferences.ServicePreferenceFragment;
+
+public class ServicePreferenceActivity extends LocalizedActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getFragmentManager().beginTransaction().replace(android.R.id.content,
+        getSupportFragmentManager().beginTransaction().replace(android.R.id.content,
                 new ServicePreferenceFragment()).commit();
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        setTitle(R.string.settings);
     }
 
     @Override

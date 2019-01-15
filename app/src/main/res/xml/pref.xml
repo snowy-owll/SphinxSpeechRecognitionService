@@ -1,43 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/main_settings">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        android:title="@string/main_settings"
+        app:iconSpaceReserved="false">
         <com.ls.directoryselector.DirectoryPreference
+            android:defaultValue="@string/default_am_path"
             android:key="am_path"
-            android:title="@string/path_to_am"
-            android:summary="Path"
+            android:negativeButtonText="@android:string/cancel"
             android:positiveButtonText="@android:string/ok"
-            android:negativeButtonText="@android:string/cancel"/>
-        <EditTextPreference
-            android:key="keyphrase"
+            android:summary="Path"
+            android:title="@string/path_to_am"
+            app:iconSpaceReserved="false" />
+        <ru.snowy_owl.testservicesphinx.preferences.NotEmptyEditTextPreference
             android:capitalize="none"
-            android:title="@string/keyphrase_for_recognition"/>
-        <EditTextPreference
+            android:defaultValue="@string/default_keyphrase"
+            android:key="keyphrase"
+            android:title="@string/keyphrase_for_recognition"
+            app:iconSpaceReserved="false" />
+        <ru.snowy_owl.testservicesphinx.preferences.NumberPreference
+            android:defaultValue="10000"
+            android:inputType="number"
             android:key="timeout_recognition"
+            android:title="@string/timeout_recognition"
+            app:iconSpaceReserved="false" />
+        <ru.snowy_owl.testservicesphinx.preferences.NumberPreference
+            android:defaultValue="8000"
             android:inputType="number"
-            android:title="@string/timeout_recognition"/>
-        <EditTextPreference
             android:key="sample_rate"
-            android:inputType="number"
-            android:title="@string/sample_rate"/>
+            android:title="@string/sample_rate"
+            app:iconSpaceReserved="false" />
         <CheckBoxPreference
+            android:defaultValue="true"
             android:key="remove_noise"
-            android:title="@string/remove_noise"/>
+            android:title="@string/remove_noise"
+            app:iconSpaceReserved="false" />
         <CheckBoxPreference
+            android:defaultValue="false"
             android:key="enable_raw_log"
+            android:summary="@string/log_raw_summary"
             android:title="@string/log_raw"
-            android:summary="@string/log_raw_summary"/>
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/notification_settings">
+    <PreferenceCategory
+        android:title="@string/notification_settings"
+        app:iconSpaceReserved="false">
         <CheckBoxPreference
-                android:key="vibro_recognized"
-                android:title="@string/vibration"/>
+            android:defaultValue="true"
+            android:key="vibro_recognized"
+            android:title="@string/vibration"
+            app:iconSpaceReserved="false" />
         <CheckBoxPreference
-                android:key="sound_recognized"
-                android:title="@string/sound_notify"/>
+            android:defaultValue="true"
+            android:key="sound_recognized"
+            android:title="@string/sound_notify"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/about">
-        <Preference android:key="version"
-                    android:title="Версия"
-            />
+    <PreferenceCategory
+        android:title="@string/language"
+        app:iconSpaceReserved="false">
+        <ListPreference
+            android:defaultValue="@string/empty_string"
+            android:entries="@array/language_list_labels"
+            android:entryValues="@array/language_list_values"
+            android:key="language"
+            android:title="@string/select_language"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/about"
+        app:iconSpaceReserved="false">
+        <Preference
+            android:key="version"
+            android:title="@string/version"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
 </PreferenceScreen>

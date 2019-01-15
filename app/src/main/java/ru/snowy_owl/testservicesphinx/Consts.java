@@ -1,57 +1,44 @@
 package ru.snowy_owl.testservicesphinx;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
-final class Consts {
-    final static String FILE_PREF_NAME = "SphinxPref";
-    final static String PREF_SPHINX_PATH = "am_path";
-    final static String PREF_KEYPHRASE = "keyphrase";
-    final static String PREF_TIMEOUT_RECOGNITION = "timeout_recognition";
-    final static String PREF_VIBRO_RECOGNIZED = "vibro_recognized";
-    final static String PREF_SOUND_RECOGNIZED = "sound_recognized";
-    final static String PREF_SAMPLE_RATE = "sample_rate";
-    final static String PREF_REMOVE_NOISE = "remove_noise";
-    final static String PREF_ENABLE_RAW_LOG = "enable_raw_log";
-    final static String DEFAULT_KEYPHRASE = "окей робот";
-    final static String DEFAULT_TIMEOUT_RECOGNITION = "10000";
-    final static String DEFAULT_SPHINX_PATH = "/storage/sdcard0/Sphinx/";
-    final static boolean DEFAULT_VIBRO_RECOGNIZED = true;
-    final static boolean DEFAULT_SOUND_RECOGNIZER = true;
-    final static String DEFAULT_SAMPLE_RATE = "8000";
-    final static boolean DEFAULT_REMOVE_NOISE = true;
-    final static boolean DEFAULT_ENABLE_RAW_LOG = false;
+import androidx.collection.SimpleArrayMap;
 
-    final static String BROADCAST_ACTION = "ru.snowy_owl.testservicesphinx.broadcast";
-    final static String BROADCAST_PARAM_STATUS = "status";
-    final static String BROADCAST_PARAM_DATA = "data";
-    final static String BROADCAST_PARAM_CONFIDENCE = "confidence";
-    static final String BROADCAST_STATUS_START_INIT = "start_init";
-    static final String BROADCAST_STATUS_STOP = "stop";
-    static final String BROADCAST_STATUS_ERROR_INIT = "error_init";
-    static final String BROADCAST_STATUS_INIT_COMPLETE = "init_complete";
-    static final String BROADCAST_STATUS_START_RECOGNIZE_KEYPHRASE = "start_recognize_keyphrase";
-    static final String BROADCAST_STATUS_START_RECOGNIZE_COMMAND = "start_recognize_command";
-    static final String BROADCAST_STATUS_KEYPHRASE_RECOGNIZED = "keyphrase_recognized";
-    static final String BROADCAST_STATUS_COMMAND_RECOGNIZED = "command_recognized";
-    static final String BROADCAST_STATUS_RECOGNIZE_COMMAND_TIMEOUT = "recognize_command_timeout";
+public final class Consts {
+    public final static String BROADCAST_ACTION = "ru.snowy_owl.testservicesphinx.broadcast";
+    public final static String BROADCAST_PARAM_STATUS = "status";
+    public final static String BROADCAST_PARAM_DATA = "data";
+    public final static String BROADCAST_PARAM_CONFIDENCE = "confidence";
+    public static final String BROADCAST_STATUS_START_INIT = "start_init";
+    public static final String BROADCAST_STATUS_STOP = "stop";
+    public static final String BROADCAST_STATUS_ERROR_INIT = "error_init";
+    public static final String BROADCAST_STATUS_INIT_COMPLETE = "init_complete";
+    public static final String BROADCAST_STATUS_START_RECOGNIZE_KEYPHRASE = "start_recognize_keyphrase";
+    public static final String BROADCAST_STATUS_START_RECOGNIZE_COMMAND = "start_recognize_command";
+    public static final String BROADCAST_STATUS_KEYPHRASE_RECOGNIZED = "keyphrase_recognized";
+    public static final String BROADCAST_STATUS_COMMAND_RECOGNIZED = "command_recognized";
+    public static final String BROADCAST_STATUS_RECOGNIZE_COMMAND_TIMEOUT = "recognize_command_timeout";
 
-    final static String LOG_TAG = "TestServiceSphinx";
+    public final static String LOG_TAG = "TestServiceSphinx";
 
-    final static int LAST_MESSAGES_LIST_SIZE = 15;
-
-    final static HashMap<String, Integer> BroadcastStatusLabels;
+    public final static SimpleArrayMap<String, Integer> BROADCAST_STATUS_LABELS;
+    public final static ArrayList<String> SUPPORTED_LANGUAGES;
 
     static {
-        BroadcastStatusLabels = new HashMap<>();
-        BroadcastStatusLabels.put(BROADCAST_STATUS_ERROR_INIT, R.string.service_error_init);
-        BroadcastStatusLabels.put(BROADCAST_STATUS_INIT_COMPLETE, R.string.service_init_complete);
-        BroadcastStatusLabels.put(BROADCAST_STATUS_KEYPHRASE_RECOGNIZED, R.string.service_keyphrase_recognized);
-        BroadcastStatusLabels.put(BROADCAST_STATUS_COMMAND_RECOGNIZED, R.string.service_command_recognized);
-        BroadcastStatusLabels.put(BROADCAST_STATUS_START_INIT, R.string.service_start_init);
-        BroadcastStatusLabels.put(BROADCAST_STATUS_START_RECOGNIZE_KEYPHRASE, R.string.service_start_recognize_keyphrase);
-        BroadcastStatusLabels.put(BROADCAST_STATUS_START_RECOGNIZE_COMMAND, R.string.service_start_recognize_command);
-        BroadcastStatusLabels.put(BROADCAST_STATUS_RECOGNIZE_COMMAND_TIMEOUT, R.string.service_recognize_command_timeout);
-        BroadcastStatusLabels.put(BROADCAST_STATUS_STOP, R.string.service_stop);
+        BROADCAST_STATUS_LABELS = new SimpleArrayMap<>();
+        BROADCAST_STATUS_LABELS.put(BROADCAST_STATUS_ERROR_INIT, R.string.service_error_init);
+        BROADCAST_STATUS_LABELS.put(BROADCAST_STATUS_INIT_COMPLETE, R.string.service_init_complete);
+        BROADCAST_STATUS_LABELS.put(BROADCAST_STATUS_KEYPHRASE_RECOGNIZED, R.string.service_keyphrase_recognized);
+        BROADCAST_STATUS_LABELS.put(BROADCAST_STATUS_COMMAND_RECOGNIZED, R.string.service_command_recognized);
+        BROADCAST_STATUS_LABELS.put(BROADCAST_STATUS_START_INIT, R.string.service_start_init);
+        BROADCAST_STATUS_LABELS.put(BROADCAST_STATUS_START_RECOGNIZE_KEYPHRASE, R.string.service_start_recognize_keyphrase);
+        BROADCAST_STATUS_LABELS.put(BROADCAST_STATUS_START_RECOGNIZE_COMMAND, R.string.service_start_recognize_command);
+        BROADCAST_STATUS_LABELS.put(BROADCAST_STATUS_RECOGNIZE_COMMAND_TIMEOUT, R.string.service_recognize_command_timeout);
+        BROADCAST_STATUS_LABELS.put(BROADCAST_STATUS_STOP, R.string.service_stop);
+
+        SUPPORTED_LANGUAGES = new ArrayList<>();
+        SUPPORTED_LANGUAGES.add("en");
+        SUPPORTED_LANGUAGES.add("ru");
     }
 
     private Consts() {
